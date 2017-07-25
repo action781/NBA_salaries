@@ -1,0 +1,7 @@
+"0","summary.table = df %>% 
+    group_by(Year, Group) %>%
+    summarise(sd,median,mean, n())
+"
+"2","Error in summarise_impl(.data, dots) : 
+  Column `sd` is of unsupported type function
+"

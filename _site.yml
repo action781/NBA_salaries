@@ -1,0 +1,19 @@
+name: "my-github.io-website"
+navbar:
+    title: "Billy Jackson"
+    type: inverse
+    left:
+        - text: "Home"
+          icon: fa-home
+          href: index.html
+    right:
+        - icon: fa-github
+          href: https://github.com/action781
+        - icon: fa-linkedin-square
+          href: https://linkedin.com
+        - icon: fa-envelope-open-o
+          href: mailto:action781@gmail.com            
+output:
+    html_document:
+        highlight: textmate
+        theme: spacelab

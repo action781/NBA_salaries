@@ -1,0 +1,6 @@
+"0","per_game_stats <- NBAPerGameStatistics(season = 2017)
+"
+"2","`mutate_each()` is deprecated.
+Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead.
+To map `funs` over a selection of variables, use `mutate_at()`
+"

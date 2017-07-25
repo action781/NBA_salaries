@@ -1,0 +1,9 @@
+{
+    "path" : "~/Desktop/data_science/NBA_salaries",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

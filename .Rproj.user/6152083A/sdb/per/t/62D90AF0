@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "<!--Basketball tables-->\n\n```{r Libraries, message = FALSE, warning = FALSE, echo = FALSE}\n# Load libraries\nlibrary(XML); library(tidyverse); library(plyr); library(rmarkdown); library(scales); library(knitr); library(shiny); library(htmltools); library(DT); library(ballr)\n```\n\n```{r Local options, echo = FALSE}\n# Setting global knitr options for document\nknitr::opts_chunk$set(out.width='50%', out.height='50%', fig.align = \"center\")\nknitr::opts_chunk$set(message = FALSE, warning = FALSE) \nknitr::opts_chunk$set(cache = TRUE)\nknitr::opts_chunk$set(results = 'hold')\n```\n\n<!--Start Document-->\n\n## Salaries\n\nThis app scrapes salary data from [Hoopshype.com](www.hoopshype.com) and combines them into one single \ntable that is sortable and filterable.\n\n\n```{r List of NBA Teams, echo=FALSE}\n# List of all NBA teams\nteams <- c(\"atlanta_hawks\", \"brooklyn_nets\", \"boston_celtics\", \"charlotte_hornets\", \"chicago_bulls\", \"cleveland_cavaliers\", \"dallas_mavericks\", \"denver_nuggets\", \"detroit_pistons\", \"golden_state_warriors\", \"houston_rockets\", \"indiana_pacers\", \"los_angeles_clippers\", \"los_angeles_lakers\", \"memphis_grizzlies\", \"miami_heat\", \"milwaukee_bucks\", \"minnesota_timberwolves\", \"new_orleans_pelicans\", \"new_york_knicks\", \"oklahoma_city_thunder\", \"orlando_magic\", \"philadelphia_76ers\", \"phoenix_suns\", \"portland_trail_blazers\", \"sacramento_kings\", \"san_antonio_spurs\", \"toronto_raptors\", \"utah_jazz\", \"washington_wizards\")\n```\n\n```{r Scraping salaries, echo=FALSE}\n# Scrape all team salaries from hoopshype\ngeneric_link <- \"http://www.hoopshype.com/salaries/\"\nsalaries_list <- as.list(NULL)\nfor(i in 1:length(teams)){\n    link <- paste(generic_link, teams[i], sep = \"\")\n    salaries_list[[i]] <- readHTMLTable(link, stringsAsFactors = FALSE)[[1]]\n    salaries_list[[i]]$team <- teams[i]\n}\nnames(salaries_list) <- teams\n```\n\n```{r Creating salary table, echo = FALSE}\n# Combine dfs from list into one df\nsalaries_df <- bind_rows(salaries_list)\n\n# Fill NAs\nsalaries_df[salaries_df == \"\"] <- \"$0\"\n\n# Convert $ into numeric\nnumericDF <- as.data.frame(sapply(salaries_df, as.factor))\nnumericDF[,-c(1,8)] <- as.numeric(gsub(\"[$,]\", \"\", as.matrix(numericDF[,-c(1,8)])))\n\ncurrencyDF <- numericDF\ncurrencyDF[,-c(1,8)] <- sapply(currencyDF[,-c(1,8)], dollar)\n```\n\n```{r Table of Salaries, echo = FALSE}\n# Print datatable of all salaries\nDT::datatable(currencyDF)\n```\n\n*****\n\n## Stats\n\n```{r Get Fantasy bball positions and stats}\n# Get per game stats from ballr library\nper_game_stats <- NBAPerGameStatistics(season = 2017)\n\n# Condense the dataframe to eliminate multiple entries per player\ncondensed_per_game <- per_game_stats %>% \n    group_by(Player, Pos) %>%\n    filter(Tm == \"TOT\" | n()==1)\n\n```\n\n\n\n\n\n*****\n\n```{r Template, eval = FALSE, echo = FALSE}\natlanta_hawks <- readHTMLTable(\"http://hoopshype.com/salaries/atlanta_hawks\", stringsAsFactors = FALSE)[[1]]\nboston_celtics <- readHTMLTable(\"http://hoopshype.com/salaries/boston_celtics\", stringsAsFactors = FALSE)[[1]]\n```\n\n",
+    "created" : 1499494517104.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2055077449",
+    "id" : "62D90AF0",
+    "lastKnownWriteTime" : 1501011201,
+    "last_content_update" : 1501011201226,
+    "path" : "~/Desktop/data_science/NBA_salaries/Index.Rmd",
+    "project_path" : "Index.Rmd",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

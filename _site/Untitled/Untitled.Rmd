@@ -1,0 +1,43 @@
+---
+title: "INSERT TITLE"
+author: "Billy Jackson"
+output: 
+  html_document:
+    theme: "spacelab"
+---
+
+<!--Set document options--> 
+
+```{r Libraries, message = FALSE, warning = FALSE, echo = FALSE}
+# Load libraries; echo = FALSE recommended unless want to show users.
+library(tidyverse); library(knitr); library(DT)
+```
+
+```{r Local options, echo = FALSE}
+# Setting local knitr options for document
+knitr::opts_chunk$set(out.width='50%', out.height='50%', fig.align = "center")
+knitr::opts_chunk$set(message = FALSE) 
+knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(results = 'hold')
+```
+
+<!--Begin document here--> 
+
+
+```{r}
+set.seed(1)
+df <- data.frame(rep(
+  sample(c(2012,2016),10, replace = T)),
+  sample(c('Treat','Control'),10,replace = T),
+  runif(10,0,1),
+  runif(10,0,1),
+  runif(10,0,1))
+
+ colnames(df) <- c('Year','Group','V1','V2','V3')
+ detach("plyr", unload=TRUE) 
+ 
+summary.table = df %>% 
+    group_by(Year, Group) %>%
+    summarise(sd,median,mean, n())
+```
+
